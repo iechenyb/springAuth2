@@ -8,7 +8,13 @@
 						http://www.springframework.org/schema/security
 						http://www.springframework.org/schema/security/spring-security-3.2.xsd">
 
+<!-- 
+username:admin
+password:1
+grant_type:password
 
+Authorization:bearer 41df26efb1654215b970b4f92bbb02c5
+ -->
 	<!--  /oauth/token 是oauth2登陆验证请求的url     用于获取access_token  ,默认的生存时间是43200秒，即12小时-->
 	<http pattern="/oauth/token" create-session="stateless"
 		authentication-manager-ref="oauth2AuthenticationManager">
@@ -19,11 +25,11 @@
 			before="BASIC_AUTH_FILTER" />
 		<access-denied-handler ref="oauth2AccessDeniedHandler" />
 	</http>
-	<http pattern="/json**" create-session="never"
+	<http pattern="/user**" create-session="never"
 		entry-point-ref="oauth2AuthenticationEntryPoint"
 		access-decision-manager-ref="oauth2AccessDecisionManager">
 		<anonymous enabled="false" />
-		<intercept-url pattern="/json**" access="ROLE_USER" />
+		<intercept-url pattern="/user**" access="ROLE_USER" />
 		<custom-filter ref="mobileResourceServer" before="PRE_AUTH_FILTER" />
 		<access-denied-handler ref="oauth2AccessDeniedHandler" />
 	</http>
@@ -40,13 +46,9 @@
 			<intercept-url pattern="/admin**" access="ROLE_ADMIN" /> -->
 		<form-login login-page="/" default-target-url="/"
 			authentication-failure-url="/?login=error" />
-
 		<logout logout-success-url="/" />
 	</http>
-
     <beans:import resource="infrastructure.xml"/>
-
-
     <!-- 验证的权限控制 -->
 	<authentication-manager>
 		<authentication-provider>
@@ -60,16 +62,11 @@
 
 	<!-- for spring oauth2 -->
     <!--token在服务器存储的方式    InMemoryTokenStore ：保存在内存     ；JdbcTokenStore : 保存在数据库中 -->
-	<beans:bean id="tokenStore"
-		class="org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore" />
+	<beans:bean id="tokenStore" class="org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore" />
 	<!--<beans:bean id="tokenServices"
 		class="org.springframework.security.oauth2.provider.token.DefaultTokenServices">-->     <!--令牌服务的实体-->
-    <beans:bean id="tokenServices"
-                class="com.cyb.auth2.service.MyTokenService">      <!-- 自己重写的类 -->
-
-
+    <beans:bean id="tokenServices"     class="com.cyb.auth2.service.MyTokenService">      <!-- 自己重写的类 -->
 		<beans:property name="tokenStore" ref="tokenStore" />
-
         <!--允许刷新token ， 默认不允许-->
 		<beans:property name="supportRefreshToken" value="true" />
 	</beans:bean>
@@ -77,7 +74,7 @@
 	<oauth2:client-details-service id="clientDetailsService" >
 		<oauth2:client client-id="mobile_1" authorized-grant-types="password,authorization_code,refresh_token,implicit"
 			secret="secret_1" scope="read,write,trust" />
-		<oauth2:client client-id="cyb" authorized-grant-types="password,authorization_code,refresh_token,implicit"
+		<oauth2:client client-id="cyb" authorized-grant-types="password,authorization_code,refresh_token,implicit,client_credentials"
 			secret="cyb" scope="read,write,trust" />
 	</oauth2:client-details-service>
 	<beans:bean id="oauth2ClientDetailsUserService"

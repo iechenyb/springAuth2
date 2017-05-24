@@ -23,15 +23,20 @@ public class HomeController {
 		return "index";
 	}
 	
-	@RequestMapping("/json")
+	@RequestMapping("/user")
 	@ResponseBody
-	public List<User> json(){
-		return userService.getAllUsers();
+	public List<String> json(){
+		return Arrays.asList("111", "222", "333");
 	}
 	
 	@RequestMapping("/admin")
 	@ResponseBody
 	public List<String> admin(){
 		return Arrays.asList("zhangsan", "lisi", "wangwu");
+	}
+	@RequestMapping("/other")
+	@ResponseBody
+	public List<User> other(){
+		return userService.getAllUsers();
 	}
 }
