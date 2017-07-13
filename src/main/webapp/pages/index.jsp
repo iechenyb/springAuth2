@@ -7,13 +7,13 @@
 <html>
 <title>登陆界面</title>
 <body>
-<h2>Hello World!</h2>
+<h2>Hello World! ${base }j_spring_security_check</h2>
 <h2>${auth}</h2>
-<form action="${base }j_spring_security_check" method="post">
-	用户名：<input type="text" name="j_username" /><br/>
-	密码：<input type="password" name="j_password" /><br/>
+<form action="${base }login" method="post">
+	用户名：<input type="text" name="username" /><br/>
+	密码：<input type="password" name="password" /><br/>
 	<input type="submit" value="登录" />
 </form>
-<a href="${base }j_spring_security_logout">注销</a>
+<a href="${base }exit">注销</a>
 </body>
 </html>

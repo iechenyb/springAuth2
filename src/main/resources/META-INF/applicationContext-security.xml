@@ -70,11 +70,11 @@ Authorization:bearer 41df26efb1654215b970b4f92bbb02c5
         <!--允许刷新token ， 默认不允许-->
 		<beans:property name="supportRefreshToken" value="true" />
 	</beans:bean>
-
+    <!-- password,authorization_code,refresh_token,implicit,client_credentials -->
 	<oauth2:client-details-service id="clientDetailsService" >
 		<oauth2:client client-id="mobile_1" authorized-grant-types="password,authorization_code,refresh_token,implicit"
 			secret="secret_1" scope="read,write,trust" />
-		<oauth2:client client-id="cyb" authorized-grant-types="password,authorization_code,refresh_token,implicit,client_credentials"
+		<oauth2:client client-id="cyb" authorized-grant-types="authorization_code"
 			secret="cyb" scope="read,write,trust" />
 	</oauth2:client-details-service>
 	<beans:bean id="oauth2ClientDetailsUserService"
