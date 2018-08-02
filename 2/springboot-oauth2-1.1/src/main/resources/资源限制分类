@@ -1,0 +1,13 @@
+两个非resource保护的连接，访问时跳转到登录页面
+dbTrustedClent
+dbClient
+=====================
+两个受保护的资源，需要访问token
+authTrustedClient 有角色限制
+authClient 有角色限制
+user  无角色限制
+=====================
+no 无角色限制，不收保护！可以直接访问
+=====================
+clientAdmin 一个受角色限制的非保护资源  会跳转到登录页面。
+
